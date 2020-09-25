@@ -28,7 +28,7 @@ public class MyConfiguration
         Map<String,Object> props = new HashMap<>();
         props.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, false);
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "kafka-streams-demo-application");
-        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "rniranjan1.epm.blr.novell.com:9092");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         return new KafkaStreamsConfiguration(props);
