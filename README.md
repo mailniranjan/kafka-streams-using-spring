@@ -12,10 +12,10 @@ I will put the record (value, null) to output topic.
 
 ### The input and output topic has to be created manually.
 
-###Kafka producer command
+### Kafka producer command
 
 kafka-console-producer.bat --bootstrap-server localhost:9092 --topic kafka-streams-demo-input-topic
 
-###Kafka console command
+### Kafka console command
 
 kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic kafka-streams-demo-output-topic --from-beginning --property print.key=true
