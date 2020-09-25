@@ -10,4 +10,4 @@ from input topic can have any key which is ignored in my logic.
 
 I will put the record (value, null) to output topic.
 
-The input and output topic has to be created manually.
+### The input and output topic has to be created manually.
