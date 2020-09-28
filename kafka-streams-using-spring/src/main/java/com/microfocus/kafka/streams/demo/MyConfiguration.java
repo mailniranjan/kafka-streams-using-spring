@@ -10,6 +10,7 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KeyValueMapper;
 import org.apache.kafka.streams.kstream.ValueMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -19,8 +20,16 @@ import org.springframework.kafka.config.KafkaStreamsConfiguration;
 import org.springframework.kafka.config.StreamsBuilderFactoryBean;
 
 @Configuration
+@EnableKafka
+@EnableKafkaStreams
 public class MyConfiguration
 {
+    @Value("${kafka.streams.input.topic}")
+    private String inputTopic;
+    
+    @Value("${kafka.streams.output.topic}")
+    private String outputTopic;
+    
     @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
     public KafkaStreamsConfiguration kStreamsConfigs()
     {
@@ -33,16 +42,10 @@ public class MyConfiguration
         return new KafkaStreamsConfiguration(props);
     }
     
-    @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_BUILDER_BEAN_NAME)
-    public StreamsBuilderFactoryBean streamsBuilderFactoryBean(KafkaStreamsConfiguration kafkaStreamsConfiguration)
-    {
-        return new StreamsBuilderFactoryBean(kafkaStreamsConfiguration);
-    }
-    
     @Bean
     public KStream<String,String> kafkaStreamWhichCopiedValueToKeyAndSetsValueAsNull(StreamsBuilder streamsBuilder)
     {
-        KStream<String,String> stream = streamsBuilder.stream("kafka-streams-demo-input-topic");
+        KStream<String,String> stream = streamsBuilder.stream(inputTopic);
         stream.selectKey(new KeyValueMapper<String,String,String>()
         {
             @Override
@@ -58,7 +61,17 @@ public class MyConfiguration
                 //set new value as null
                 return null;
             }
-        }).to("kafka-streams-demo-output-topic");
+        }).to(outputTopic);
         return stream;
+    }
+    
+    public String getInputTopic()
+    {
+        return inputTopic;
+    }
+    
+    public String getOutputTopic()
+    {
+        return outputTopic;
     }
 }
